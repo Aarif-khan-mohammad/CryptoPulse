@@ -3,22 +3,22 @@ import { API, apiFetch } from '../api'
 
 export function useMarketChart(coinId, days = 7) {
   const [chartData, setChartData] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [loading, setLoading]     = useState(true)
+  const [error, setError]         = useState(null)
 
   const fetch_ = useCallback(async () => {
-    if (!coinId) return
+    if (!coinId) { setLoading(false); return }
     setLoading(true)
     setError(null)
     try {
       const json = await apiFetch(API.marketChart(coinId, days))
+      if (!json?.prices?.length) throw new Error('empty_response')
       setChartData(
         json.prices.map(([ts, price], i) => ({
           ts,
-          date:
-            days <= 1
-              ? new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-              : new Date(ts).toLocaleDateString([], { month: 'short', day: 'numeric' }),
+          date: days <= 1
+            ? new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            : new Date(ts).toLocaleDateString([], { month: 'short', day: 'numeric' }),
           price,
           volume: json.total_volumes[i]?.[1] ?? 0,
         }))
