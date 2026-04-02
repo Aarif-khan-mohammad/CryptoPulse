@@ -5,12 +5,12 @@ export function useTrending() {
   const [trending, setTrending] = useState([])
 
   useEffect(() => {
-    // Delay 3s — well after the main useCrypto sequential fetches finish
+    // Delay 5s — after all critical fetches complete
     const t = setTimeout(() => {
       apiFetch(API.trending)
-        .then((d) => setTrending(d.coins?.slice(0, 7).map((c) => c.item) ?? []))
+        .then(d => setTrending(d.coins?.slice(0, 7).map(c => c.item) ?? []))
         .catch(() => {})
-    }, 3000)
+    }, 5000)
     return () => clearTimeout(t)
   }, [])
 
@@ -26,29 +26,26 @@ export function useGlobalChart(days = 30) {
     let cancelled = false
     setLoading(true)
     setError(null)
-    setData([])
 
-    // Delay 4s so it doesn't compete with markets + global fetches on mount
-    const t = setTimeout(async () => {
-      try {
-        const json = await apiFetch(API.marketChart('bitcoin', days))
+    // Use Binance BTCUSDT klines — no rate limit, instant response
+    const url = API.binanceKlines('BTCUSDT', days)
+
+    apiFetch(url)
+      .then(json => {
         if (cancelled) return
-        if (!json?.prices?.length) throw new Error('empty')
+        if (!Array.isArray(json) || !json.length) throw new Error('empty')
         setData(
-          json.prices.map(([ts, price], i) => ({
+          json.map(([ts,,,, close, vol]) => ({
             date: new Date(ts).toLocaleDateString([], { month: 'short', day: 'numeric' }),
-            btc: price,
-            vol: json.total_volumes[i]?.[1] ?? 0,
+            btc:  parseFloat(close),
+            vol:  parseFloat(vol),
           }))
         )
-      } catch (e) {
-        if (!cancelled) setError(e.message)
-      } finally {
-        if (!cancelled) setLoading(false)
-      }
-    }, 4000)
+      })
+      .catch(e => { if (!cancelled) setError(e.message) })
+      .finally(() => { if (!cancelled) setLoading(false) })
 
-    return () => { cancelled = true; clearTimeout(t) }
+    return () => { cancelled = true }
   }, [days])
 
   return { data, loading, error }

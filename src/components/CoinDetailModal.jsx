@@ -58,7 +58,7 @@ const RSITooltip = ({ active, payload, label }) => {
 export default function CoinDetailModal({ coin, onClose }) {
   const [days, setDays] = useState(7)
   const [tab, setTab] = useState('price')
-  const { chartData, loading } = useMarketChart(coin.id, days)
+  const { chartData, loading, error, source, refetch: fetch_ } = useMarketChart(coin.id, days)
 
   const prices = useMemo(() => chartData.map((d) => d.price), [chartData])
   const sma7 = useMemo(() => computeSMA(prices, 7), [prices])
@@ -194,9 +194,28 @@ export default function CoinDetailModal({ coin, onClose }) {
 
             {/* Charts */}
             {loading ? (
-              <div className="h-56 bg-slate-800/50 rounded-xl animate-pulse" />
+              <div className="h-56 flex flex-col items-center justify-center gap-2">
+                <div className="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+                <span className="text-slate-500 text-xs">Loading chart...</span>
+              </div>
+            ) : error ? (
+              <div className="h-56 flex flex-col items-center justify-center gap-2 text-slate-500">
+                <span className="text-2xl">📊</span>
+                <span className="text-xs">Chart temporarily unavailable</span>
+                <button onClick={() => fetch_()} className="text-xs text-emerald-400 underline">Retry</button>
+              </div>
             ) : (
               <div className="h-56">
+                {/* Source badge */}
+                <div className="flex justify-end mb-1">
+                  <span className={`text-[9px] px-1.5 py-0.5 rounded font-medium ${
+                    source === 'binance'
+                      ? 'bg-yellow-950/60 text-yellow-500 border border-yellow-800/40'
+                      : 'bg-slate-800 text-slate-500 border border-slate-700'
+                  }`}>
+                    {source === 'binance' ? '⚡ Binance' : '🦎 CoinGecko'}
+                  </span>
+                </div>
                 {tab === 'price' && (
                   <ResponsiveContainer width="100%" height="100%">
                     <ComposedChart data={enriched}>

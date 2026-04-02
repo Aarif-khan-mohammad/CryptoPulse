@@ -9,6 +9,10 @@
       "destination": "/api/feargreed/proxy"
     },
     {
+      "source": "/api/binance/:path*",
+      "destination": "/api/binance/proxy"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
     }

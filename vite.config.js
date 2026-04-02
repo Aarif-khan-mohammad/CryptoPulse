@@ -1,6 +1,11 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+const proxyRewrite = (defaultPath) => (path) => {
+  const u = new URL(path, 'http://localhost')
+  return decodeURIComponent(u.searchParams.get('p') || defaultPath)
+}
+
 export default defineConfig({
   plugins: [react()],
   server: {
@@ -8,20 +13,18 @@ export default defineConfig({
       '/api/coingecko/proxy': {
         target: 'https://api.coingecko.com/api/v3',
         changeOrigin: true,
-        rewrite: (path, req) => {
-          // Extract the ?p= value and use it as the real path
-          const u = new URL(path, 'http://localhost')
-          return decodeURIComponent(u.searchParams.get('p') || '/')
-        },
+        rewrite: proxyRewrite('/'),
         headers: { Accept: 'application/json' },
+      },
+      '/api/binance/proxy': {
+        target: 'https://api.binance.com',
+        changeOrigin: true,
+        rewrite: proxyRewrite('/api/v3/ping'),
       },
       '/api/feargreed/proxy': {
         target: 'https://api.alternative.me',
         changeOrigin: true,
-        rewrite: (path) => {
-          const u = new URL(path, 'http://localhost')
-          return decodeURIComponent(u.searchParams.get('p') || '/fng/?limit=1')
-        },
+        rewrite: proxyRewrite('/fng/?limit=1'),
       },
     },
   },
