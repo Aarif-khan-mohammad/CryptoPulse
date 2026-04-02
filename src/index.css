@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    background-color: #020617;
+    color: #e2e8f0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0f172a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #00ff88;
+  }
+}
+
+@layer utilities {
+  .text-neon {
+    color: #00ff88;
+  }
+  .border-neon {
+    border-color: #00ff88;
+  }
+  .bg-flash-green {
+    background-color: rgba(0, 255, 136, 0.15);
+  }
+  .bg-flash-red {
+    background-color: rgba(225, 29, 72, 0.15);
+  }
+  .ticker-scroll {
+    display: flex;
+    animation: scrollLeft 50s linear infinite;
+    width: max-content;
+  }
+  .ticker-scroll:hover {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes scrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}

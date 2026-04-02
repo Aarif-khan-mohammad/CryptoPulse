@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#020617"/>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#020617"/>
+      <stop offset="100%" style="stop-color:#0f172a"/>
+    </linearGradient>
+    <linearGradient id="neon" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00ff88"/>
+      <stop offset="100%" style="stop-color:#00ccff"/>
+    </linearGradient>
+  </defs>
+  <!-- Grid lines -->
+  <line x1="0" y1="210" x2="1200" y2="210" stroke="#1e293b" stroke-width="1"/>
+  <line x1="0" y1="420" x2="1200" y2="420" stroke="#1e293b" stroke-width="1"/>
+  <line x1="400" y1="0" x2="400" y2="630" stroke="#1e293b" stroke-width="1"/>
+  <line x1="800" y1="0" x2="800" y2="630" stroke="#1e293b" stroke-width="1"/>
+  <!-- Logo icon -->
+  <rect x="80" y="80" width="64" height="64" rx="16" fill="url(#neon)"/>
+  <text x="112" y="124" text-anchor="middle" font-size="36" fill="#020617" font-weight="bold">⚡</text>
+  <!-- Title -->
+  <text x="164" y="118" font-size="52" font-weight="bold" fill="white" font-family="system-ui, sans-serif">Crypto<tspan fill="#00ff88">Pulse</tspan></text>
+  <!-- Tagline -->
+  <text x="80" y="185" font-size="24" fill="#64748b" font-family="system-ui, sans-serif">Professional Live Crypto Trading Terminal</text>
+  <!-- Feature pills -->
+  <rect x="80" y="240" width="180" height="40" rx="20" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+  <text x="170" y="266" text-anchor="middle" font-size="16" fill="#00ff88" font-family="system-ui, sans-serif">📈 Live Prices</text>
+  <rect x="276" y="240" width="180" height="40" rx="20" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+  <text x="366" y="266" text-anchor="middle" font-size="16" fill="#a78bfa" font-family="system-ui, sans-serif">📊 RSI Charts</text>
+  <rect x="472" y="240" width="200" height="40" rx="20" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+  <text x="572" y="266" text-anchor="middle" font-size="16" fill="#f59e0b" font-family="system-ui, sans-serif">😨 Fear &amp; Greed</text>
+  <rect x="688" y="240" width="180" height="40" rx="20" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+  <text x="778" y="266" text-anchor="middle" font-size="16" fill="#0ea5e9" font-family="system-ui, sans-serif">🐋 Whale Alerts</text>
+  <!-- Mock chart line -->
+  <polyline points="80,480 200,440 320,460 440,380 560,400 680,340 800,360 920,300 1040,320 1120,280" fill="none" stroke="#00ff88" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="80,480 200,440 320,460 440,380 560,400 680,340 800,360 920,300 1040,320 1120,280" fill="none" stroke="url(#neon)" stroke-width="3" opacity="0.5"/>
+  <!-- URL -->
+  <text x="1120" y="600" text-anchor="end" font-size="18" fill="#334155" font-family="system-ui, sans-serif">cryptopulse.vercel.app</text>
+</svg>
