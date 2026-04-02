@@ -5,16 +5,23 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api/coingecko': {
+      '/api/coingecko/proxy': {
         target: 'https://api.coingecko.com/api/v3',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/coingecko/, ''),
-        headers: { 'Accept': 'application/json' },
+        rewrite: (path, req) => {
+          // Extract the ?p= value and use it as the real path
+          const u = new URL(path, 'http://localhost')
+          return decodeURIComponent(u.searchParams.get('p') || '/')
+        },
+        headers: { Accept: 'application/json' },
       },
-      '/api/feargreed': {
+      '/api/feargreed/proxy': {
         target: 'https://api.alternative.me',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/feargreed/, ''),
+        rewrite: (path) => {
+          const u = new URL(path, 'http://localhost')
+          return decodeURIComponent(u.searchParams.get('p') || '/fng/?limit=1')
+        },
       },
     },
   },
